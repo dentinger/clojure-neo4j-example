@@ -11,6 +11,8 @@
 
 (def CREATE_SCHEMA "CREATE (Test {name: 'foo'} )" )
 
+(def SELECT_SINGLE_TEST_NODE "MATCH (t:Test) RETURN t" )
+
 ;;assumes that security is turned off in neo4j
 (def writeConn (nr/connect "http://localhost:7474/db/data/"))
 
@@ -26,9 +28,16 @@
     (cy/tquery writeConn CREATE_SCHEMA)
 )
 
-
+;;select a node
+(defn selectSingleTestNode []
+    (cy/tquery writeConn SELECT_SINGLE_TEST_NODE)
+    )
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Demonstrate how to interact with Neo4j from within Clojure."
   [& args]
-  (createTestNode))
+  (->
+  (createTestNode)
+  (selectSingleTestNode)
+  )
+  )

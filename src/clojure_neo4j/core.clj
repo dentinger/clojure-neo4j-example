@@ -11,7 +11,7 @@
 
 (def CREATE_SCHEMA "CREATE (t:Test {name: 'foo'} )" )
 
-(def SELECT_SINGLE_TEST_NODE "MATCH (t:Test) RETURN t" )
+(def SELECT_SINGLE_TEST_NODE "MATCH (t:Test) RETURN t.name" )
 
 ;;assumes that security is turned off in neo4j
 (def writeConn (nr/connect "http://localhost:7474/db/data/"))
@@ -28,10 +28,20 @@
     (cy/tquery writeConn CREATE_SCHEMA)
 )
 
-;;select a node
+;;select a node.  This just queries for a node and does nothing with the response. Not that interesting
 (defn selectSingleTestNode []
     (cy/tquery writeConn SELECT_SINGLE_TEST_NODE)
     )
+
+;; This is how to get specific data from the query and collect the results into a set
+(defn selectSingleFieldFromANode []
+  (let [x (cy/tquery writeConn "MATCH (n:Test) RETURN n.name" )]
+    (->> x
+      (map #(get % "n.name") )
+      (into #{} ))
+      )
+)
+
 
 (defn -main
   "Demonstrate how to interact with Neo4j from within Clojure."

@@ -9,7 +9,7 @@
 
 	(:gen-class))
 
-(def CREATE_SCHEMA "CREATE (Test {name: 'foo'} )" )
+(def CREATE_SCHEMA "CREATE (t:Test {name: 'foo'} )" )
 
 ;;assumes that security is turned off in neo4j
 (def writeConn (nr/connect "http://localhost:7474/db/data/"))

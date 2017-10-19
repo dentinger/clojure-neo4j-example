@@ -9,7 +9,7 @@
 
 	(:gen-class))
 
-(def CREATE_SCHEMA "CREATE (Test {name: 'foo'} )" )
+(def CREATE_SCHEMA "CREATE (t:Test {name: 'foo'} )" )
 
 (def SELECT_SINGLE_TEST_NODE "MATCH (t:Test) RETURN t" )
 
